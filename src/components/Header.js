@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-scroll";
+import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { GiTireIronCross } from "react-icons/gi";
+import { useState } from "react";
 
 const Header = () => {
+  const [nav, setNav] = useState(false);
   const links = [
     {
       id: 1001,
@@ -36,7 +40,7 @@ const Header = () => {
           </h1>
         </div>
 
-        <div className="flex justify-center gap-2 items font-body_font text-lg">
+        <div className="hidden md:inline-flex justify-center gap-2 items font-body_font text-lg">
           {links.map(({ id, link }) => (
             <div key={id}>
               <ul className="flex group bg-red-200">
@@ -49,6 +53,32 @@ const Header = () => {
             </div>
           ))}
         </div>
+
+        <div
+          onClick={() => setNav(!nav)}
+          className="cursor-pointer md:hidden pr-4 z-10"
+        >
+          {nav ? (
+            <GiTireIronCross size={30} className="animate-pulse " />
+          ) : (
+            <AiOutlineMenuUnfold size={35} />
+          )}
+        </div>
+        {nav && (
+          <div className="flex flex-col justify-center items-center absolute top-20 right-0 w-auto bg-transparent mx-auto h-auto">
+            {links.map(({ id, link }) => (
+              <div key={id} className="w-full bg-red-200 flex justify-end">
+                <ul className="flex group bg-red-200">
+                  <Link to={link} smooth={true} duration={500}>
+                    <li className="bg-header_bg capitalize text-lg px-6 py-2 w-40 group-hover:bg-white group-hover:text-gray-900 group-hover:-translate-y-1 group-hover:translate-x-1 duration-300 cursor-pointer border-b-gray-300 border">
+                      {link}
+                    </li>
+                  </Link>
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
